@@ -1,6 +1,7 @@
 package com.tecsup.petclinic.mapper;
 
 import com.tecsup.petclinic.dtos.VisitDTO;
+import com.tecsup.petclinic.entities.Pet;
 import com.tecsup.petclinic.entities.Visit;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,7 +18,7 @@ public interface VisitMapper {
     VisitMapper INSTANCE = Mappers.getMapper(VisitMapper.class);
 
     @Mapping(source = "visitDate", target = "visitDate")
-    @Mapping(source = "pet.id", target = "petId")
+    @Mapping(source = "petId", target = "pet.id")
     Visit mapToEntity(VisitDTO visitDTO);
 
     default LocalDate stringToLocalDate(String dateStr) {
@@ -26,6 +27,15 @@ public interface VisitMapper {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(dateStr, formatter);
+    }
+
+    default Pet petIdToPet(Integer petId) {
+        if (petId == null) {
+            return null;
+        }
+        Pet pet = new Pet();
+        pet.setId(petId);
+        return pet;
     }
 
     @Mapping(source = "visitDate", target = "visitDate")
