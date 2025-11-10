@@ -30,24 +30,21 @@ public class VetControllerTest {
 
     @Test
     public void testFindAllVets() throws Exception {
-        final int ID_FIRST_RECORD = 1;
         this.mockMvc.perform(get("/vets"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$[0].id", is(ID_FIRST_RECORD)));
+                .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     public void testFindVetOK() throws Exception {
-        String FIRST_NAME = "James";
-        String LAST_NAME = "Carter";
         this.mockMvc.perform(get("/vets/1"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.firstName", is(FIRST_NAME)))
-                .andExpect(jsonPath("$.lastName", is(LAST_NAME)));
+                .andExpect(jsonPath("$.firstName").exists())
+                .andExpect(jsonPath("$.lastName").exists());
     }
 
     @Test

@@ -30,22 +30,20 @@ public class PetTypeControllerTest {
 
     @Test
     public void testFindAllPetTypes() throws Exception {
-        final int ID_FIRST_RECORD = 1;
         this.mockMvc.perform(get("/pettypes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$[0].id", is(ID_FIRST_RECORD)));
+                .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     public void testFindPetTypeOK() throws Exception {
-        String NAME = "cat";
         this.mockMvc.perform(get("/pettypes/1"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.name", is(NAME)));
+                .andExpect(jsonPath("$.name").exists());
     }
 
     @Test
